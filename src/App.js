@@ -1,24 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './components/ui/Home';
+import SignIn from './components/ui/SignIn';
+import NavHeader from './components/ui/NavHeader';
+
+import { useState } from 'react';
+import Board from './components/ui/Board';
+
+
 
 function App() {
+
+
+  const [login, setLogin] = useState(getSavedLogin());
+
+  function saveLogin(login) {
+    localStorage.setItem('login', JSON.stringify(login));
+    setLogin(login);
+  }
+
+  function getSavedLogin() {
+    if (localStorage.getItem('login')) {
+      return JSON.parse(localStorage.getItem('login'));
+    } else {
+      return undefined;
+    }
+  }
+  function logOut() {
+    localStorage.removeItem("login");
+    setLogin(undefined);
+  }
+
+  function displayLogIn() {
+    if (login) {
+      return (
+        <>
+          <Home />
+        </>
+      );
+    } else {
+      return (<SignIn saveLogin={saveLogin} />);
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        {login ? <NavHeader username={login} logOut={logOut} /> : <></>}
+        <Routes>
+          <Route path="/" element={displayLogIn()} />
+          <Route path='/board' element={<Board />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 

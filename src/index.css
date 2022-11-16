@@ -1,5 +1,12 @@
+:root {
+  --index: calc(1vh * 1vw);
+  --main-dark-color: #2E5B70;
+  --main-light-color: #A67842;
+  --secondary-dark-color: #B7CCD6;
+  --secondary-light-color: #FFF2E3;
+}
+
 body {
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;

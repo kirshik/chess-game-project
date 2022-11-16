@@ -1,0 +1,55 @@
+.sign-in-container {
+  background-color: var(--main-dark-color);
+  height: 100vh;
+  background-image: url("../../images/chess-logo-white.png");
+  background-repeat: no-repeat;
+  background-size: 35%;
+  background-position: 3vw;
+}
+
+.background-block {
+  background: var(--main-light-color);
+  clip-path: polygon(51% 0, 100% 0, 100% 100%, 35% 100%);
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  right: 0;
+  z-index: 0;
+}
+
+.SignIn {
+  font-size: 20px;
+  position: absolute;
+  width: 30vw;
+  height: fit-content;
+  padding: 20px;
+  z-index: 1;
+  left: 60%;
+  top: 40%;
+  border-radius: 3%;
+  background-color: #FFF2E3;
+  -webkit-box-shadow: 10px 10px 20px 16px rgba(34, 60, 80, 0.15);
+  -moz-box-shadow: 10px 10px 20px 16px rgba(34, 60, 80, 0.15);
+  box-shadow: 10px 10px 20px 16px rgba(34, 60, 80, 0.15);
+}
+
+.sign-in-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-in-form input {
+  margin-top: 15px;
+}
+
+.sign-in-form label {
+  color: black;
+
+}
+
+
+.sign-in-form>button {
+  margin-top: 15px;
+  width: 90%;
+  align-self: center;
+}

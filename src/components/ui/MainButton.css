@@ -1,0 +1,5 @@
+.btn-primary.MainButton {
+  background-color: var(--main-dark-color);
+  font-size: 3vh;
+  border-color: var(--main-dark-color);
+}
