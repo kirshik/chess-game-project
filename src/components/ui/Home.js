@@ -1,10 +1,11 @@
 import { homeH1, homeBtn1, homeBtn2, homeBtn3 } from "../strings";
 import "./Home.css";
 import MainButton from "./MainButton";
+import "../../images/bR.png"
 function Home() {
-  function handleClick() {
-
-  }
+  // function handleClick() {
+  //   return undefined
+  // }
   return (
     <>
       {/* <div className="background-figure"></div> */}

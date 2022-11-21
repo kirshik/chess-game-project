@@ -1,0 +1,17 @@
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+.b {
+  background-color: var(--main-dark-color);
+}
+
+.w {
+  background-color: var(--secondary-light-color);
+}

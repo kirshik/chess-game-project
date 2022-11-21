@@ -1,15 +1,28 @@
-import { Chess } from 'chess.js';
+import Cell from './Cell'
+import Game from '../logic/Game';
+import "./Board.css";
+
 
 function Board(props) {
-  const chess = new Chess();
-  console.log(chess.ascii());
-  console.log(chess.board());
-  const board = chess.board.map((cell) => {
-    return (
-      <div>{cell}</div>
-    );
+  const game = new Game();
+  let board = <div id='board'>{displayBoard()}</div>;
+
+  function displayBoard() {
+    return game.getBoard().map((row, i = 0) => {
+      i += 1;
+      return (row.map((cell, j = 0) => {
+        j += 1;
+        const squareColor = (i + j) % 2 == 1 ? "b" : "w";
+        return (
+          < Cell key={cell.square} color={cell.color} type={cell.type} square={cell.square} squareColor={squareColor} />
+        );
+
+      }))
+    })
+
+
   }
-  );
+
   return (
     <>
       {board}
