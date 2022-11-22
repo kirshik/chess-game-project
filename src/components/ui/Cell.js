@@ -1,9 +1,22 @@
-import "./Cell.css";
+import "./Cell.css"
+import { useDrop } from 'react-dnd'
+import ChessPiece from "./ChessPiece";
+
 function Cell(props) {
-  const img = props.type !== 'empty' ? <img src={require(`../../images/${props.color}${props.type.toUpperCase()}.png`)} alt={props.square} /> : <></>;
+  const [{ isOver }, drop] = useDrop({
+    accept: "chess-piece",
+    drop: () => movePiece(),
+    collect: (monitor) => ({
+      isOver: !monitor.isOver(),
+    }),
+  });
+
+  const background = isOver ? "green" : "red";
+  function movePiece() { }
+
   return (
-    <div className={'cell ' + props.squareColor}  >
-      {img}
+    <div ref={drop} className={'cell ' + props.squareColor} data-square={props.square}  >
+      <ChessPiece type={props.type} color={props.color} square={props.square} />
     </div>
   );
 }

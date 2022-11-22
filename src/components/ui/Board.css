@@ -1,7 +1,14 @@
 #board {
   display: grid;
-  grid-template-rows: repeat(8, 4vw);
-  grid-template-columns: repeat(8, 8vh);
+  grid-template-rows: repeat(8, 12.5%);
+  grid-template-columns: repeat(8, 12.5%);
   gap: 0px;
   margin-top: 3vh;
+  max-width: 40%;
+}
+
+@media only screen and (max-width:690px) {
+  #board {
+    max-width: 80%;
+  }
 }

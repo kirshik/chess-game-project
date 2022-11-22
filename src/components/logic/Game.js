@@ -10,16 +10,34 @@ class Game {
 
   getBoard() {
     let board = this.#chess.board();
-    console.log(board)
     for (let i = 0; i < board.length; i++) {
       const row = board[i];
-      if (row.every(v => { return v === null })) {
-        board[i] = row.map((cell, j = 0) => { return { square: `${this.#squares[j]}${Math.abs(8 - i)}`, type: 'empty' }; j += 1 })
-        console.log(i)
+      if (row.some(v => { return v === null })) {
+        board[i] = row.map((cell, j = 0) => {
+          if (cell !== null) {
+            return cell;
+            j += 1;
+          } else {
+            return { square: `${this.#squares[j]}${Math.abs(8 - i)}`, type: 'empty' };
+            j += 1;
+          }
+        }
+        )
       }
 
     }
     return board;
+  }
+  makeMove(move) {
+    const newMove = this.#chess.move(move);
+
+  }
+
+  isValidMove(moveFrom, moveTo) {
+    if (this.#chess.moves({ square: moveFrom }).includes(moveTo)) {
+      return true;
+    }
+    return false;
   }
 
   saveGame() {

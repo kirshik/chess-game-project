@@ -1,0 +1,5 @@
+.chess-piece {
+  transform: translate(0, 0);
+  margin: var(--index);
+  width: calc(var(--index)*3);
+}
