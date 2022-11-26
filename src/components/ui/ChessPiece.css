@@ -1,5 +1,7 @@
 .chess-piece {
   transform: translate(0, 0);
-  margin: var(--index);
+  padding: calc(var(--index)*0.5);
   width: calc(var(--index)*3);
+  height: calc(var(--index)*3);
+
 }

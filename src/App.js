@@ -48,7 +48,7 @@ function App() {
         {login ? <NavHeader username={login} logOut={logOut} /> : <></>}
         <Routes>
           <Route path="/" element={displayLogIn()} />
-          <Route path='/board' element={<Board />} />
+          <Route path='/board' element={<Board whiteName={login} />} />
         </Routes>
       </Router>
     </>

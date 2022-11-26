@@ -4,6 +4,7 @@
   --main-light-color: #A67842;
   --secondary-dark-color: #B7CCD6;
   --secondary-light-color: #FFF2E3;
+  --first-click-color: rgb(170, 255, 153, 0.5);
 }
 
 html {

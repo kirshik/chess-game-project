@@ -1,0 +1,37 @@
+.moves {
+  display: grid;
+  grid-template-columns: repeat(2, 10vw);
+  height: 25vh;
+  width: 20vw;
+  overflow: auto;
+  overflow-x: hidden;
+  text-align: center;
+}
+
+.moves .moves-header {
+  background-color: var(--main-dark-color);
+  color: white;
+  height: min-content;
+}
+
+.moves p {
+  height: min-content;
+  margin: 0;
+}
+
+.moves p:nth-child(odd) {
+  border-right: 1px solid black;
+}
+
+.btns-action {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.btns-action .btn-primary.MainButton {
+  font-size: 12px;
+  width: 9vw;
+  margin: 5px;
+}

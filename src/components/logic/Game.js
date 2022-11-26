@@ -1,11 +1,21 @@
 import { Chess } from 'chess.js';
+import { squares_letters } from '../strings';
 
 class Game {
-  #chess
-  #squares = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-  constructor(game = undefined) {
+  #chess;
+  #gameTime;
+  #result;
+  #isStart = false;
+  #squares = squares_letters;
+  constructor(whiteName = "Kirill", blackName = "Name", game = undefined) {
+    this.whiteName = whiteName;
+    this.blackName = blackName;
     this.#chess = new Chess(game);
+    this.moves = [];
+  }
 
+  getMoves() {
+    return this.moves.map((move) => { return move.move });
   }
 
   getBoard() {
@@ -16,11 +26,10 @@ class Game {
         board[i] = row.map((cell, j = 0) => {
           if (cell !== null) {
             return cell;
-            j += 1;
           } else {
             return { square: `${this.#squares[j]}${Math.abs(8 - i)}`, type: 'empty' };
-            j += 1;
           }
+          j += 1;
         }
         )
       }
@@ -29,12 +38,20 @@ class Game {
     return board;
   }
   makeMove(move) {
-    const newMove = this.#chess.move(move);
+    if (!this.#isStart) {
+      this.#isStart = true;
+      this.#gameTime = new Date();
+    }
+    const moveTime = new Date().toLocaleTimeString();
+    this.moves.push({ move: move, time: moveTime });
+    this.#chess.move(move);
 
   }
 
   isValidMove(moveFrom, moveTo) {
-    if (this.#chess.moves({ square: moveFrom }).includes(moveTo)) {
+    console.log(this.#chess.moves({ square: moveFrom }))
+    if (this.#chess.moves({ square: moveFrom }).filter(pos => pos.includes(moveTo)).length > 0) {
+      console.log(true)
       return true;
     }
     return false;
@@ -45,6 +62,25 @@ class Game {
   }
   getHistory() {
     return this.#chess.history();
+  }
+  getResult() {
+    const endGameTime = new Date();
+    const timeOfGame = endGameTime - this.#gameTime;
+    return {
+      startTime: this.#gameTime,
+      timeOfGame: timeOfGame,
+      whiteName: this.whiteName,
+      blackName: this.blackName,
+      moves: this.moves,
+      result: this.#result
+    }
+
+  }
+
+
+  //test func
+  showBoard() {
+    console.log(this.#chess.ascii());
   }
 }
 export default Game;

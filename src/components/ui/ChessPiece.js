@@ -9,11 +9,13 @@ function ChessPiece(props) {
     }),
   });
 
-  const background = isDragging ? "transparent" : "transparent";
+  if (isDragging) {
+    props.setDropType(props.type);
+    props.onDragPiece(props.square);
+  }
   const piece = props.type !== "empty" ?
-    <div style={{ backgroundColor: "transparent" }}>
+    <div >
       <img
-        style={{ backgroundColor: background }}
         ref={drag}
         src={require(`../../images/${props.color}${props.type.toUpperCase()}.png`)}
         alt={props.square}
