@@ -9,32 +9,38 @@ import Controller from './Controller';
 
 function Board(props) {
   const [board, setBoard] = useState();
-  const [game, setGame] = useState(new Game());
+  const [game, setGame] = useState(props.game);
   const [dragPosition, setDragPosition] = useState();
   const [dropType, setDropType] = useState("");
   const [isPieceChoosen, setIsPiceChoosen] = useState(false);
   const [pickedPiece, setPickedPiece] = useState();
   const [moves, setMoves] = useState(game.getMoves());
+  const [next, setNext] = useState();
+  const [isWhiteMove, setIsWhiteMove] = useState(true);
 
   function handleMoveByClick(e) {
     e.preventDefault();
     if (!isPieceChoosen) {
       if (e.target.className === "chess-piece") {
-        const square = e.target.parentNode.parentNode;
+        const square = e.target.parentNode;
         setIsPiceChoosen(true);
-        e.target.parentNode.style.backgroundColor = "var(--first-click-color)";
-        setDragPosition(square.dataset.square);
+        e.target.parentNode.classList.add("picked");
+        setDragPosition(square.parentNode.dataset.square);
         setPickedPiece(square);
-        setDropType(square.dataset.type);
+        setDropType(square.parentNode.dataset.type);
 
       }
-    } else if (e.target === pickedPiece || e.target.parentNode.parentNode === pickedPiece) {
+    } else if (e.target === pickedPiece.parentNode || e.target.parentNode === pickedPiece) {
+      pickedPiece.classList.remove('picked');
       setIsPiceChoosen(false);
-    } else if (e.target.dataset.square || e.target.parentNode.dataset.square) {
-      const move = e.target.dataset.square ? e.target.dataset.square : e.target.parentNode.dataset.square;
+    } else if (e.target.dataset.square || e.target.parentNode.parentNode.dataset.square) {
+      pickedPiece.classList.remove('picked');
+      const move = e.target.dataset.square ? e.target.dataset.square : e.target.parentNode.parentNode.dataset.square;
       movePiece(move, e.target.dataset.type);
       setIsPiceChoosen(false);
+
     }
+
   }
 
   function onDragPiece(move) {
@@ -46,9 +52,9 @@ function Board(props) {
   }
 
   function movePiece(move, type) {
+
     let isDropType;
     move = type === "empty" ? move : "x" + move;
-    console.log("DROPPPPTYPE", dropType)
     if (dropType === "p" && type !== "empty") {
       isDropType = dragPosition[0];
     } else if (dropType === "p" && type === "empty") {
@@ -58,8 +64,11 @@ function Board(props) {
     }
 
     move = isDropType + move;
-
     if (game.isValidMove(dragPosition, move)) {
+      let newNext = new Date();
+      newNext.setMinutes(new Date().getMinutes() + game.time);
+      setNext(newNext);
+      if (game.type === "human") { setIsWhiteMove(!isWhiteMove) };
       game.makeMove(move);
       setMoves([...moves, move]);
       setBoard(displayBoard());
@@ -91,16 +100,20 @@ function Board(props) {
   const numbersColumnRight = squares_numbers.reverse().map(createDataCell);
 
   return (
-
-    <div className='board-container'>
-      <div className='num-column'>{numbersColumnLeft}</div>
-      <div id="board" onClick={handleMoveByClick}>
-        {lettersRowTop}
-        {displayBoard()}
-        {lettersRowBottom}
+    <div className='board-screen-container'>
+      <div className={isWhiteMove ? 'board-container' : "board-container black-move"}>
+        <div className='num-column'>{numbersColumnLeft}</div>
+        <div id="board" onClick={handleMoveByClick}>
+          {lettersRowTop}
+          {displayBoard()}
+          {lettersRowBottom}
+        </div>
+        <div className='num-column'>{numbersColumnRight}</div>
       </div>
-      <div className='num-column'>{numbersColumnRight}</div>
-      <aside><Controller moves={moves} whiteName={props.whiteName}></Controller></aside>
+      <aside><Controller
+        moves={moves} whiteName={game.whiteName} blackName={game.blackName}
+        time={game.time} next={next} isWhiteMove={isWhiteMove}>
+      </Controller></aside>
     </div>
 
 

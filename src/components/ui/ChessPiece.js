@@ -14,7 +14,7 @@ function ChessPiece(props) {
     props.onDragPiece(props.square);
   }
   const piece = props.type !== "empty" ?
-    <div >
+    <div className='chess-cotainer'>
       <img
         ref={drag}
         src={require(`../../images/${props.color}${props.type.toUpperCase()}.png`)}

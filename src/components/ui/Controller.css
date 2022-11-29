@@ -6,6 +6,7 @@
   overflow: auto;
   overflow-x: hidden;
   text-align: center;
+  background-color: white;
 }
 
 .moves .moves-header {
@@ -28,10 +29,47 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  border-top: 5px solid var(--main-dark-color);
 }
 
 .btns-action .btn-primary.MainButton {
   font-size: 12px;
   width: 9vw;
   margin: 5px;
+}
+
+.display-container {
+  border: 5px solid var(--main-dark-color);
+  border-radius: 5px;
+  background-color: whitesmoke;
+  padding: var(--index);
+}
+
+.timer {
+  font-size: calc(var(--index)*1.5);
+  border: 5px solid var(--main-dark-color);
+  border-radius: 5px;
+  max-width: 5vw;
+  min-width: fit-content;
+  text-align: center;
+  padding: 3px;
+  background-color: whitesmoke;
+
+}
+
+.current {
+  display: block;
+  background-color: lightgreen;
+  margin: 0;
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.timer-line {
+  margin: 5px;
+  margin-left: 0;
+  background-color: lightgreen;
+  height: 0.4vw;
+  border: 1px solid var(--main-dark-color);
+
 }

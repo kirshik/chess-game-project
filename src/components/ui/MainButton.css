@@ -3,9 +3,22 @@
   font-size: 3vh;
   border-color: var(--main-dark-color);
   cursor: pointer;
+  min-height: fit-content;
 }
 
 .btn-primary.MainButton a {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   color: white;
   text-decoration: none;
+  width: 100%;
+  height: 100%;
+}
+
+.btn-primary.MainButton span {
+  font-size: 60%;
+  color: var(--secondary-light-color);
+  border-top: 1px solid var(--secondary-light-color);
 }

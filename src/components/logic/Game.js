@@ -7,11 +7,15 @@ class Game {
   #result;
   #isStart = false;
   #squares = squares_letters;
-  constructor(whiteName = "Kirill", blackName = "Name", game = undefined) {
+  constructor(time, whiteName = "Kirill", blackName = "Name", type = "human", game = undefined) {
     this.whiteName = whiteName;
     this.blackName = blackName;
+    this.type = type;
+    this.time = time;
     this.#chess = new Chess(game);
     this.moves = [];
+    this.timer = undefined;
+
   }
 
   getMoves() {
@@ -37,11 +41,18 @@ class Game {
     }
     return board;
   }
+
+  setTimer() {
+    clearInterval(this.timer);
+    this.timer = setTimeout(() => { alert("Game Over") }, this.time * 60000)
+  }
+
   makeMove(move) {
     if (!this.#isStart) {
       this.#isStart = true;
       this.#gameTime = new Date();
     }
+    this.setTimer();
     const moveTime = new Date().toLocaleTimeString();
     this.moves.push({ move: move, time: moveTime });
     this.#chess.move(move);
@@ -49,9 +60,7 @@ class Game {
   }
 
   isValidMove(moveFrom, moveTo) {
-    console.log(this.#chess.moves({ square: moveFrom }))
     if (this.#chess.moves({ square: moveFrom }).filter(pos => pos.includes(moveTo)).length > 0) {
-      console.log(true)
       return true;
     }
     return false;

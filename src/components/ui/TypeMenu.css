@@ -1,0 +1,13 @@
+.TypeMenu {
+  display: grid;
+  grid-template-columns: repeat(2, 20vw);
+  gap: var(--index);
+  margin-top: 4vh;
+  margin-left: 30%;
+}
+
+.TypeMenu button {
+  max-width: 20vw;
+  min-width: fit-content;
+  height: 20vh;
+}
