@@ -4,13 +4,15 @@
   justify-content: center;
 }
 
-.black-move,
+/*  rotate whole board after each move */
+/* .black-move,
 .black-move img,
 .black-move .data-cell {
   transform: rotate(180deg);
-}
+} */
 
 .board-screen-container {
+  margin-top: 10vh;
   display: flex;
   flex-direction: row;
   align-items: center;

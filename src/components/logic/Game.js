@@ -11,11 +11,16 @@ class Game {
     this.whiteName = whiteName;
     this.blackName = blackName;
     this.type = type;
-    this.time = time;
+    time == "infinity" ? this.time = Infinity : this.time = time;
     this.#chess = new Chess(game);
     this.moves = [];
-    this.timer = undefined;
-
+    this.whiteTimeLeft = Number(time * 60000);
+    this.blackTimeLeft = Number(time * 60000);
+    this.whiteTimeStart = undefined;
+    this.blackTimeStart = undefined;
+    this.WhiteTimer = undefined;
+    this.BlackTimer = undefined;
+    this.isWhite = true;
   }
 
   getMoves() {
@@ -43,27 +48,40 @@ class Game {
   }
 
   setTimer() {
-    clearInterval(this.timer);
-    this.timer = setTimeout(() => { alert("Game Over") }, this.time * 60000)
+    if (this.isWhite) {
+      this.whiteTimeStart = this.whiteTimeStart ? this.whiteTimeStart : new Date();
+
+      if (this.blackTimer) { clearTimeout(this.blackTimer) };
+      this.blackTimeLeft = this.blackTimeStart ? this.blackTimeLeft - (new Date() - this.blackTimeStart) : this.blackTimeLeft;
+
+      this.whiteTimer = setTimeout(() => { alert("White l0se"); }, this.whiteTimeLeft);
+      this.whiteTimeStart = new Date();
+    } else {
+      this.blackTimeStart = this.blackTimeStart ? this.blackTimeStart : new Date();
+
+      if (this.whiteTimer) { clearTimeout(this.whiteTimer) };
+      this.whiteTimeLeft = this.whiteTimeStart ? this.whiteTimeLeft - (new Date() - this.whiteTimeStart) : this.whiteTimeLeft;
+
+      this.blackTimer = setTimeout(() => { alert("black l0se") }, this.blackTimeLeft);
+      this.blackTimeStart = new Date();
+    }
+
   }
 
-  makeMove(move) {
+  makeMove(from, to) {
     if (!this.#isStart) {
       this.#isStart = true;
       this.#gameTime = new Date();
     }
-    this.setTimer();
-    const moveTime = new Date().toLocaleTimeString();
-    this.moves.push({ move: move, time: moveTime });
-    this.#chess.move(move);
-
-  }
-
-  isValidMove(moveFrom, moveTo) {
-    if (this.#chess.moves({ square: moveFrom }).filter(pos => pos.includes(moveTo)).length > 0) {
-      return true;
+    const move = this.#chess.move(`${from}-${to}`, { sloppy: true });
+    if (move) {
+      this.isWhite = !this.isWhite;
+      this.setTimer();
+      const moveTime = new Date().toLocaleTimeString();
+      this.moves.push({ move: `${from}-${to}`, time: moveTime });
     }
-    return false;
+    return move;
+
   }
 
   saveGame() {

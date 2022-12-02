@@ -11,7 +11,6 @@ function Board(props) {
   const [board, setBoard] = useState();
   const [game, setGame] = useState(props.game);
   const [dragPosition, setDragPosition] = useState();
-  const [dropType, setDropType] = useState("");
   const [isPieceChoosen, setIsPiceChoosen] = useState(false);
   const [pickedPiece, setPickedPiece] = useState();
   const [moves, setMoves] = useState(game.getMoves());
@@ -27,7 +26,6 @@ function Board(props) {
         e.target.parentNode.classList.add("picked");
         setDragPosition(square.parentNode.dataset.square);
         setPickedPiece(square);
-        setDropType(square.parentNode.dataset.type);
 
       }
     } else if (e.target === pickedPiece.parentNode || e.target.parentNode === pickedPiece) {
@@ -47,29 +45,34 @@ function Board(props) {
     setDragPosition(move);
   };
 
-  function setTypeOfPiece(type) {
-    setDropType(type)
-  }
 
-  function movePiece(move, type) {
 
-    let isDropType;
-    move = type === "empty" ? move : "x" + move;
-    if (dropType === "p" && type !== "empty") {
-      isDropType = dragPosition[0];
-    } else if (dropType === "p" && type === "empty") {
-      isDropType = "";
-    } else {
-      isDropType = dropType.toUpperCase();
-    }
+  function movePiece(move) {
 
-    move = isDropType + move;
-    if (game.isValidMove(dragPosition, move)) {
-      let newNext = new Date();
-      newNext.setMinutes(new Date().getMinutes() + game.time);
-      setNext(newNext);
-      if (game.type === "human") { setIsWhiteMove(!isWhiteMove) };
-      game.makeMove(move);
+
+    const currentMove = game.makeMove(dragPosition, move);
+    if (game.type === "human" && currentMove) { setIsWhiteMove(!isWhiteMove) };
+    if (currentMove) {
+
+      let newNext = !isWhiteMove ? game.whiteTimeLeft : game.blackTimeLeft;
+
+      const date = new Date();
+      const minutes = Math.floor(Math.floor(newNext / 1000) / 60);
+      const seconds = Math.floor(newNext / 1000) % 60;
+
+      let oppositeMinutes = Math.floor(Math.floor((isWhiteMove ? game.whiteTimeLeft : game.blackTimeLeft) / 1000) / 60);
+      let oppositeSeconds = Math.floor((isWhiteMove ? game.whiteTimeLeft : game.blackTimeLeft) / 1000) % 60;
+
+
+
+      date.setSeconds(date.getSeconds() + seconds);
+      date.setMinutes(date.getMinutes() + minutes);
+
+      setNext([newNext, oppositeMinutes, oppositeSeconds]);
+
+
+
+
       setMoves([...moves, move]);
       setBoard(displayBoard());
     }
@@ -84,7 +87,7 @@ function Board(props) {
         const squareColor = (i + j) % 2 === 1 ? "b" : "w";
         return (
           < Cell key={cell.square} color={cell.color} type={cell.type} square={cell.square}
-            squareColor={squareColor} onDragPiece={onDragPiece} onDrop={movePiece} setDropType={setTypeOfPiece} />
+            squareColor={squareColor} onDragPiece={onDragPiece} onDrop={movePiece} />
         );
 
       }))

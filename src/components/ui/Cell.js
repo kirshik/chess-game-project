@@ -7,7 +7,7 @@ function Cell(props) {
 
   const [{ isOver }, drop] = useDrop({
     accept: "chess-piece",
-    drop: () => props.onDrop(props.square, props.type),
+    drop: () => props.onDrop(props.square),
     collect: (monitor) => ({
       isOver: !monitor.isOver(),
     }),
@@ -20,7 +20,7 @@ function Cell(props) {
   return (
     <div ref={drop} className={'cell ' + props.squareColor} data-square={props.square} data-type={props.type}>
       <ChessPiece type={props.type} onDragPiece={props.onDragPiece}
-        color={props.color} square={props.square} setDropType={props.setDropType} />
+        color={props.color} square={props.square} />
     </div>
   );
 }

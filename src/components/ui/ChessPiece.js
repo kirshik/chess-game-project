@@ -10,7 +10,6 @@ function ChessPiece(props) {
   });
 
   if (isDragging) {
-    props.setDropType(props.type);
     props.onDragPiece(props.square);
   }
   const piece = props.type !== "empty" ?
