@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { squares_letters, squares_numbers } from '../strings';
 import { nanoid } from 'nanoid';
 import Controller from './Controller';
+import ChoosePiece from './ChoosePiece';
 
 
 function Board(props) {
@@ -16,6 +17,13 @@ function Board(props) {
   const [moves, setMoves] = useState(game.getMoves());
   const [next, setNext] = useState();
   const [isWhiteMove, setIsWhiteMove] = useState(true);
+
+  // Choose Piece
+  const [promotion, setPromotion] = useState();
+  const [show, setShow] = useState(false);
+  const [promotionMove, setPromotionMove] = useState();
+
+  useEffect(() => { movePiece(promotionMove) }, [promotion])
 
   function handleMoveByClick(e) {
     e.preventDefault();
@@ -48,9 +56,20 @@ function Board(props) {
 
 
   function movePiece(move) {
+    let currentMove;
+    if (game.isPromotion(dragPosition)) {
+      console.log("PROMOSION");
+      if (promotion) {
+        currentMove = game.makeMove(dragPosition, move, promotion);
+        setPromotion(undefined);
+      } else {
+        setShow(true);
+        setPromotionMove(move);
+      }
+    } else {
+      currentMove = game.makeMove(dragPosition, move);
+    }
 
-
-    const currentMove = game.makeMove(dragPosition, move);
     if (game.type === "human" && currentMove) { setIsWhiteMove(!isWhiteMove) };
     if (currentMove) {
 
@@ -104,6 +123,7 @@ function Board(props) {
 
   return (
     <div className='board-screen-container'>
+      <ChoosePiece color={isWhiteMove ? "w" : "b"} show={show} handleClose={setShow} promotion={setPromotion} />
       <div className={isWhiteMove ? 'board-container' : "board-container black-move"}>
         <div className='num-column'>{numbersColumnLeft}</div>
         <div id="board" onClick={handleMoveByClick}>

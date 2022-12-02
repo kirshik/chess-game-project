@@ -30,7 +30,14 @@ const classicalSpan = "30 minutes";
 
 
 
+// Choose Piece
+
+const piecesToPromote = ["Q", "N", "B", "R"];
+
+
+
 export { squares_letters, squares_numbers };
 export { signInlabel, signInLoginHelp, signInButton };
 export { homeH1, homeBtn1, homeBtn2, homeBtn3 };
 export { bullet, blitz3, blitz5, rapid, classical, noLimit, bulletSpan, blitz3Span, blitz5Span, rapidSpan, classicalSpan };
+export { piecesToPromote };

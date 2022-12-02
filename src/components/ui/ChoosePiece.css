@@ -1,0 +1,17 @@
+.figures-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 20vh;
+  min-height: max-content;
+}
+
+.figures-list .figure {
+  border: 3px solid var(--main-dark-color);
+  border-radius: 5px;
+  background-color: white;
+}
+
+.figures-list .figure:hover {
+  background-color: var(--secondary-light-color);
+}

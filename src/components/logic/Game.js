@@ -20,7 +20,6 @@ class Game {
     this.blackTimeStart = undefined;
     this.WhiteTimer = undefined;
     this.BlackTimer = undefined;
-    this.isWhite = true;
   }
 
   getMoves() {
@@ -48,7 +47,7 @@ class Game {
   }
 
   setTimer() {
-    if (this.isWhite) {
+    if (this.#chess.turn() === "w") {
       this.whiteTimeStart = this.whiteTimeStart ? this.whiteTimeStart : new Date();
 
       if (this.blackTimer) { clearTimeout(this.blackTimer) };
@@ -68,20 +67,33 @@ class Game {
 
   }
 
-  makeMove(from, to) {
+  makeMove(from, to, promotionPiece = undefined) {
+    let move;
     if (!this.#isStart) {
       this.#isStart = true;
       this.#gameTime = new Date();
     }
-    const move = this.#chess.move(`${from}-${to}`, { sloppy: true });
+    if (this.isPromotion(from) && promotionPiece) {
+      move = this.#chess.move({ from: from, to: to, promotion: promotionPiece });
+    } else {
+      move = this.#chess.move({ from: from, to: to });
+    }
+
     if (move) {
-      this.isWhite = !this.isWhite;
       this.setTimer();
       const moveTime = new Date().toLocaleTimeString();
       this.moves.push({ move: `${from}-${to}`, time: moveTime });
     }
     return move;
 
+  }
+
+  isPromotion(square) {
+    const moves = this.#chess.moves({ square: square });
+    if (moves.filter(move => move.includes("=")).length > 0) {
+      return true;
+    }
+    return false;
   }
 
   saveGame() {
