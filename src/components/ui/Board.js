@@ -6,9 +6,13 @@ import { squares_letters, squares_numbers } from '../strings';
 import { nanoid } from 'nanoid';
 import Controller from './Controller';
 import ChoosePiece from './ChoosePiece';
+import EndGameModal from './EndGameModal';
 
 
 function Board(props) {
+
+  let isTimeLimit = isNaN(game.time);
+
   const [board, setBoard] = useState();
   const [game, setGame] = useState(props.game);
   const [dragPosition, setDragPosition] = useState();
@@ -24,6 +28,8 @@ function Board(props) {
   const [promotionMove, setPromotionMove] = useState();
 
   useEffect(() => { movePiece(promotionMove) }, [promotion])
+
+
 
   function handleMoveByClick(e) {
     e.preventDefault();
@@ -58,7 +64,6 @@ function Board(props) {
   function movePiece(move) {
     let currentMove;
     if (game.isPromotion(dragPosition)) {
-      console.log("PROMOSION");
       if (promotion) {
         currentMove = game.makeMove(dragPosition, move, promotion);
         setPromotion(undefined);
@@ -92,7 +97,7 @@ function Board(props) {
 
 
 
-      setMoves([...moves, move]);
+      setMoves([...moves, `${dragPosition}-${move}`]);
       setBoard(displayBoard());
     }
   };
@@ -124,6 +129,7 @@ function Board(props) {
   return (
     <div className='board-screen-container'>
       <ChoosePiece color={isWhiteMove ? "w" : "b"} show={show} handleClose={setShow} promotion={setPromotion} />
+      <EndGameModal text={"you WIN!"} show={false} />
       <div className={isWhiteMove ? 'board-container' : "board-container black-move"}>
         <div className='num-column'>{numbersColumnLeft}</div>
         <div id="board" onClick={handleMoveByClick}>
@@ -135,7 +141,7 @@ function Board(props) {
       </div>
       <aside><Controller
         moves={moves} whiteName={game.whiteName} blackName={game.blackName}
-        time={game.time} next={next} isWhiteMove={isWhiteMove}>
+        time={game.time} next={next} isWhiteMove={isWhiteMove} isTimeLimit={isTimeLimit}>
       </Controller></aside>
     </div>
 

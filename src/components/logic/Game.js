@@ -11,7 +11,7 @@ class Game {
     this.whiteName = whiteName;
     this.blackName = blackName;
     this.type = type;
-    time == "infinity" ? this.time = Infinity : this.time = time;
+    this.time = time;
     this.#chess = new Chess(game);
     this.moves = [];
     this.whiteTimeLeft = Number(time * 60000);
@@ -80,7 +80,9 @@ class Game {
     }
 
     if (move) {
-      this.setTimer();
+      if (!isNaN(this.time)) {
+        this.setTimer()
+      };
       const moveTime = new Date().toLocaleTimeString();
       this.moves.push({ move: `${from}-${to}`, time: moveTime });
     }

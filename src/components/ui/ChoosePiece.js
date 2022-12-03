@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { piecesToPromote } from '../strings';
 import "./ChoosePiece.css";
@@ -9,8 +7,7 @@ function ChoosePiece(props) {
     <>
       <>
         <Modal show={props.show} onHide={() => { props.handleClose(false) }} aria-labelledby="contained-modal-title-vcenter" centered>
-          <Modal.Header closeButton>
-
+          <Modal.Header>
             <Modal.Title>Choose piece </Modal.Title>
           </Modal.Header>
           <Modal.Body>

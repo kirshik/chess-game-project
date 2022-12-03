@@ -8,7 +8,10 @@ function Home() {
 
   return (
     <>
-      <h1 className="Homeh1">{homeH1}</h1>
+      <section class="wrapper">
+        <div class="top">{homeH1}</div>
+        <div class="bottom" aria-hidden="true">{homeH1}</div>
+      </section>
       <div className="buttons-div">
         <MainButton type="button" title={homeBtn1} path="/type-menu" />
         <MainButton type="button" title={homeBtn2} path="/type-menu" />

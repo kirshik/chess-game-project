@@ -69,13 +69,13 @@ function Controller(props) {
 
     <div className="Controller">
 
-      <div className="timer" style={{ borderBottom: "none" }}>
+      <div className="timer" hidden={props.isTimeLimit} style={{ borderBottom: "none" }}>
         {props.isWhiteMove ? (props.next ?
           `${props.next[1] < 10 ? "0" + props.next[1] : props.next[1]}:${props.next[2] < 10 ? "0" + props.next[2] : props.next[2]}`
           : `${props.time}:00`) : <div className="current">{strTimer}</div>}
       </div>
       <div className="display-container">
-        <div className="timer-line" style={timeToPercentage(strTimer, !props.isWhiteMove)}></div>
+        <div className="timer-line" hidden={props.isTimeLimit} style={timeToPercentage(strTimer, !props.isWhiteMove)}></div>
         <div className="display">
           <p>{props.blackName}</p>
           <div className="moves"><p className="moves-header">white</p><p className="moves-header">black</p>{moves}</div>
@@ -85,9 +85,9 @@ function Controller(props) {
           </div>
           <p>{props.whiteName}</p>
         </div>
-        <div className="timer-line" style={timeToPercentage(strTimer, props.isWhiteMove)}></div>
+        <div className="timer-line" hidden={props.isTimeLimit} style={timeToPercentage(strTimer, props.isWhiteMove)}></div>
       </div>
-      <div className="timer" style={{ borderTop: "none" }}>
+      <div className="timer" hidden={props.isTimeLimit} style={{ borderTop: "none" }}>
         {props.isWhiteMove ? <p className="current">
           {strTimer}</p> : (props.next ?
             `${props.next[1] < 10 ? "0" + props.next[1] : props.next[1]}:${props.next[2] < 10 ? "0" + props.next[2] : props.next[2]}`

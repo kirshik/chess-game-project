@@ -16,7 +16,7 @@ function NavHeader(props) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Home</Nav.Link>
-            <Nav.Link as={Link} to="/">Choose Game Mode</Nav.Link>
+            {/* <Nav.Link as={Link} to="/">Choose Game Mode</Nav.Link> */}
           </Nav>
           <div className='log-out'>
             <p>Welcome <span>{props.username}</span></p>

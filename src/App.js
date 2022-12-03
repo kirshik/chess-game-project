@@ -34,6 +34,7 @@ function App() {
   function logOut() {
     localStorage.removeItem("login");
     setLogin(undefined);
+    document.location.href = "/";
   }
 
   function displayLogIn() {
