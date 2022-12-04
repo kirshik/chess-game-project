@@ -8,9 +8,9 @@ function Home() {
 
   return (
     <>
-      <section class="wrapper">
-        <div class="top">{homeH1}</div>
-        <div class="bottom" aria-hidden="true">{homeH1}</div>
+      <section className="wrapper">
+        <div className="top">{homeH1}</div>
+        <div className="bottom" aria-hidden="true">{homeH1}</div>
       </section>
       <div className="buttons-div">
         <MainButton type="button" title={homeBtn1} path="/type-menu" />

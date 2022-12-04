@@ -1,5 +1,4 @@
 import Cell from './Cell';
-import Game from '../logic/Game';
 import "./Board.css";
 import { useState, useEffect } from "react";
 import { squares_letters, squares_numbers } from '../strings';
@@ -11,7 +10,7 @@ import EndGameModal from './EndGameModal';
 
 function Board(props) {
 
-  let isTimeLimit = isNaN(game.time);
+
 
   const [board, setBoard] = useState();
   const [game, setGame] = useState(props.game);
@@ -26,8 +25,14 @@ function Board(props) {
   const [promotion, setPromotion] = useState();
   const [show, setShow] = useState(false);
   const [promotionMove, setPromotionMove] = useState();
+  const [showEndGame, setShowEndGame] = useState(false);
+  const [endOfGame, setEndOfGame] = useState(undefined);
 
   useEffect(() => { movePiece(promotionMove) }, [promotion])
+
+  useEffect(() => { if (game.endOfGame) { setEndOfGame(game.endOfGame); setShowEndGame(true) } }, [game.endOfGame])
+
+
 
 
 
@@ -62,43 +67,42 @@ function Board(props) {
 
 
   function movePiece(move) {
-    let currentMove;
-    if (game.isPromotion(dragPosition)) {
-      if (promotion) {
-        currentMove = game.makeMove(dragPosition, move, promotion);
-        setPromotion(undefined);
+    if (!endOfGame) {
+      let currentMove;
+      if (game.isPromotion(dragPosition)) {
+        if (promotion) {
+          currentMove = game.makeMove(dragPosition, move, promotion);
+          setPromotion(undefined);
+        } else {
+          setShow(true);
+          setPromotionMove(move);
+        }
       } else {
-        setShow(true);
-        setPromotionMove(move);
+        currentMove = game.makeMove(dragPosition, move);
       }
-    } else {
-      currentMove = game.makeMove(dragPosition, move);
-    }
 
-    if (game.type === "human" && currentMove) { setIsWhiteMove(!isWhiteMove) };
-    if (currentMove) {
+      if (game.type === "human" && currentMove) { setIsWhiteMove(!isWhiteMove) };
+      if (currentMove) {
 
-      let newNext = !isWhiteMove ? game.whiteTimeLeft : game.blackTimeLeft;
+        let newNext = !isWhiteMove ? game.whiteTimeLeft : game.blackTimeLeft;
 
-      const date = new Date();
-      const minutes = Math.floor(Math.floor(newNext / 1000) / 60);
-      const seconds = Math.floor(newNext / 1000) % 60;
+        const date = new Date();
+        const minutes = Math.floor(Math.floor(newNext / 1000) / 60);
+        const seconds = Math.floor(newNext / 1000) % 60;
 
-      let oppositeMinutes = Math.floor(Math.floor((isWhiteMove ? game.whiteTimeLeft : game.blackTimeLeft) / 1000) / 60);
-      let oppositeSeconds = Math.floor((isWhiteMove ? game.whiteTimeLeft : game.blackTimeLeft) / 1000) % 60;
+        let oppositeMinutes = Math.floor(Math.floor((isWhiteMove ? game.whiteTimeLeft : game.blackTimeLeft) / 1000) / 60);
+        let oppositeSeconds = Math.floor((isWhiteMove ? game.whiteTimeLeft : game.blackTimeLeft) / 1000) % 60;
 
 
 
-      date.setSeconds(date.getSeconds() + seconds);
-      date.setMinutes(date.getMinutes() + minutes);
+        date.setSeconds(date.getSeconds() + seconds);
+        date.setMinutes(date.getMinutes() + minutes);
 
-      setNext([newNext, oppositeMinutes, oppositeSeconds]);
+        setNext([newNext, oppositeMinutes, oppositeSeconds]);
 
-
-
-
-      setMoves([...moves, `${dragPosition}-${move}`]);
-      setBoard(displayBoard());
+        setMoves([...moves, `${dragPosition}-${move}`]);
+        setBoard(displayBoard());
+      }
     }
   };
 
@@ -129,7 +133,9 @@ function Board(props) {
   return (
     <div className='board-screen-container'>
       <ChoosePiece color={isWhiteMove ? "w" : "b"} show={show} handleClose={setShow} promotion={setPromotion} />
-      <EndGameModal text={"you WIN!"} show={false} />
+      <EndGameModal text={Array.isArray(endOfGame) ? endOfGame[1] : endOfGame + ""}
+        title={Array.isArray(endOfGame) ? endOfGame[0] : ""}
+        show={showEndGame} handleClose={setShowEndGame} />
       <div className={isWhiteMove ? 'board-container' : "board-container black-move"}>
         <div className='num-column'>{numbersColumnLeft}</div>
         <div id="board" onClick={handleMoveByClick}>
@@ -141,7 +147,7 @@ function Board(props) {
       </div>
       <aside><Controller
         moves={moves} whiteName={game.whiteName} blackName={game.blackName}
-        time={game.time} next={next} isWhiteMove={isWhiteMove} isTimeLimit={isTimeLimit}>
+        time={game.time} next={next} isWhiteMove={isWhiteMove} isTimeLimit={isNaN(game.time)}>
       </Controller></aside>
     </div>
 

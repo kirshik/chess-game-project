@@ -14,6 +14,7 @@ function App() {
 
   const [time, setTime] = useState();
   const [login, setLogin] = useState(getSavedLogin());
+  const [blackName, setBlackName] = useState();
 
   function setGameTime(time) {
     setTime(time);
@@ -52,8 +53,10 @@ function App() {
   const routes =
     <Routes>
       <Route path="/" element={displayLogIn()} />
-      <Route path='/type-menu' element={<TypeMenu setTime={setGameTime} />} />
-      {time ? <Route path='/board' element={<Board game={new Game(time, login)} />} /> : <></>}
+      {/* TO CHANGE */}
+      <Route path='/type-menu' element={<TypeMenu setTime={setGameTime} setblackName={setBlackName} type={"human"} />} />
+      {/* , "black", "human", 'rnb1kbnr/pppp1ppp/8/4p3/5PPq/8/PPPPP2P/RNBQKBNR w KQkq - 1 3' */}
+      {time ? <Route path='/board' element={<Board game={new Game(time, login, blackName)} />} /> : <></>}
     </Routes>
 
   return (

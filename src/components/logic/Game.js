@@ -1,4 +1,5 @@
 import { Chess } from 'chess.js';
+import { noTimeLimit } from '../globals';
 import { squares_letters } from '../strings';
 
 class Game {
@@ -20,6 +21,7 @@ class Game {
     this.blackTimeStart = undefined;
     this.WhiteTimer = undefined;
     this.BlackTimer = undefined;
+    this.endOfGame = undefined;
   }
 
   getMoves() {
@@ -85,7 +87,12 @@ class Game {
       };
       const moveTime = new Date().toLocaleTimeString();
       this.moves.push({ move: `${from}-${to}`, time: moveTime });
+      if (this.isEndOfGame()) {
+        this.time = noTimeLimit;
+        this.endOfGame = this.endOfGameType();
+      }
     }
+
     return move;
 
   }
@@ -96,6 +103,27 @@ class Game {
       return true;
     }
     return false;
+  }
+
+  isEndOfGame() {
+    return this.#chess.isGameOver()
+  }
+
+  endOfGameType() {
+    if (this.#chess.isCheckmate()) {
+      return this.#chess.turn() === "w" ? "black win" : "white win";
+    }
+    if (this.#chess.isDraw()) {
+      if (this.#chess.isStalemate()) {
+        return ["stalemate", "draw"];
+      } else if (this.#chess.isThreefoldRepetition()) {
+        return ["three fold repetition", "draw"];
+      } else if (this.#chess.isInsufficientMaterial()) {
+        return ["insufficient material", "draw"];
+      } else {
+        return "draw";
+      }
+    }
   }
 
   saveGame() {
@@ -118,10 +146,5 @@ class Game {
 
   }
 
-
-  //test func
-  showBoard() {
-    console.log(this.#chess.ascii());
-  }
 }
 export default Game;

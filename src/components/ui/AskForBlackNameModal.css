@@ -1,0 +1,3 @@
+#save-name-btn button {
+  font-size: calc(var(--index)*0.6);
+}

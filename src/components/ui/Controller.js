@@ -80,8 +80,8 @@ function Controller(props) {
           <p>{props.blackName}</p>
           <div className="moves"><p className="moves-header">white</p><p className="moves-header">black</p>{moves}</div>
           <div className="btns-action">
-            <MainButton title="draw"></MainButton>
-            <MainButton title="surrender"></MainButton>
+            <MainButton title="½"></MainButton>
+            <MainButton title="⚐"></MainButton>
           </div>
           <p>{props.whiteName}</p>
         </div>

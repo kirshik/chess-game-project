@@ -34,6 +34,8 @@ const classicalSpan = "30 minutes";
 
 const piecesToPromote = ["Q", "N", "B", "R"];
 
+// // Game
+// const endGame = new Map([[1, "win"], [2, "draw"], [3, "stalemate"], [4, "threefold repetition"], [5, "insufficient material"]])
 
 
 export { squares_letters, squares_numbers };
