@@ -14,8 +14,8 @@ function Home() {
       </section>
       <div className="buttons-div">
         <MainButton type="button" title={homeBtn1} path="/type-menu" />
-        <MainButton type="button" title={homeBtn2} path="/type-menu" />
-        <MainButton type="button" title={homeBtn3} path="/type-menu" />
+        <MainButton type="button" title={homeBtn2 + "processing"} path="/type-menu" />
+        <MainButton type="button" title={homeBtn3 + "processing"} path="/type-menu" />
       </div>
     </>
   )

@@ -15,7 +15,7 @@ function AskForBlackNameModal(props) {
           </Modal.Header>
           <Modal.Body>
             <div className="md-form">
-              <input type="text" id="black-name" className="form-control" autoFocus onChange={(e) => setBlackNameLetters(e.target.value)} />
+              <input required type="name" id="black-name" className="form-control" autoFocus onChange={(e) => setBlackNameLetters(e.target.value)} />
             </div>
           </Modal.Body>
           <Modal.Footer>
